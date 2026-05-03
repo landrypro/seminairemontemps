@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+
+
 function FloatingWhatsAppButton({ phone }: { phone: string }) {
   const text = encodeURIComponent(
     "Bonjour, je voudrais des informations sur le séminaire MON TEMPS 2026."
@@ -53,6 +55,24 @@ const formSchema = z
 
 type FormValues = z.infer<typeof formSchema>;
 
+function FloatingWhatsAppMobile({ phone }: { phone: string }) {
+  const text = encodeURIComponent(
+    "Bonjour, je souhaite avoir des informations sur le séminaire MON TEMPS 2026."
+  );
+
+  return (
+    <a
+      href={`https://wa.me/${phone}?text=${text}`}
+      target="_blank"
+      rel="noreferrer"
+      className="md:hidden fixed bottom-4 right-4 z-[80] inline-flex items-center gap-2 rounded-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 shadow-xl"
+      aria-label="Contacter sur WhatsApp"
+    >
+      <MessageCircle className="w-5 h-5" />
+      <span className="text-sm font-semibold">WhatsApp</span>
+    </a>
+  );
+}
 
 export default function Home() {
   const WHATSAPP_NUMBER = "237657456623"; // <- Remplace par ton numéro (sans +)
@@ -253,18 +273,11 @@ function getTimeLeft(targetDate: Date) {
             <span className="font-bold text-lg text-blue-900">Mon Temps</span>
           </div>
           <nav className="hidden md:flex gap-6">
-            <a href="#infos" className="text-sm font-medium hover:text-blue-700 transition">
-              Infos
-            </a>
-            <a href="#about" className="text-sm font-medium hover:text-blue-700 transition">
-              À propos
-            </a>
-            <a href="#testimonials" className="text-sm font-medium hover:text-blue-700 transition">
-              Témoignages
-            </a>
-            <a href="#register" className="text-sm font-medium hover:text-blue-700 transition">
-              Inscription
-            </a>
+            <a href="#infos" className="text-sm font-medium hover:text-blue-700 transition">Infos</a>
+            <a href="#about" className="text-sm font-medium hover:text-blue-700 transition">À propos</a>
+            <a href="#speaker" className="text-sm font-medium hover:text-blue-700 transition">Orateur</a>
+            <a href="#testimonials" className="text-sm font-medium hover:text-blue-700 transition">Témoinages</a>
+            <a href="#register" className="text-sm font-medium hover:text-blue-700 transition">Inscription</a>
           </nav>
         </div>
       </header>
@@ -408,6 +421,47 @@ function getTimeLeft(targetDate: Date) {
           </div>
         </div>
       </section>
+
+ {/* L'ORATEUR */} 
+     <section id="speaker" className="py-16 md:py-20 bg-white">
+  <div className="container mx-auto px-4">
+    <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+      <div className="flex justify-center">
+        <img
+          src="/manus-storage/ECODISSEMINAIREMAI2026_8bbb2d00.jpg"
+          alt="Apôtre Esaïe C. BITECK DE BONG"
+          className="w-full max-w-sm rounded-2xl shadow-lg object-cover"
+        />
+      </div>
+
+      <div>
+        <p className="text-sm uppercase tracking-widest text-blue-700 font-semibold mb-2">
+          Votre orateur
+        </p>
+        <h2 className="text-3xl md:text-4xl font-black text-blue-950 mb-4">
+          Apôtre Esaïe C. BITECK DE BONG
+        </h2>
+
+        <p className="text-slate-700 leading-relaxed mb-4">
+          Serviteur de Dieu engagé dans l’enseignement biblique, l’édification
+          des croyants et la formation de disciples.
+        </p>
+
+        <p className="text-slate-700 leading-relaxed mb-6">
+          À travers ce séminaire, il partagera des principes spirituels et pratiques
+          pour vous aider à racheter le temps et accomplir votre destinée.
+        </p>
+
+        <a
+          href="#register"
+          className="inline-flex items-center rounded-lg bg-blue-900 hover:bg-blue-800 text-white px-5 py-3 font-semibold transition"
+        >
+          Réserver ma place
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* TÉMOIGNAGES */}
       <section id="testimonials" className="py-16 md:py-20 bg-white">
