@@ -292,7 +292,7 @@ function getTimeLeft(targetDate: Date) {
           
           <div className="max-w-3xl">
             <span className="inline-block text-xs md:text-sm font-semibold uppercase tracking-widest bg-yellow-400/20 text-yellow-300 px-3 py-1 rounded-full mb-5">
-              Séminaire Biblique 2026
+              Séminaire Biblique Mai 2026
             </span>
 
             <h1 className="text-4xl md:text-6xl font-black leading-tight mb-6">
@@ -333,6 +333,53 @@ function getTimeLeft(targetDate: Date) {
           </div>
         </div>
       </section>
+
+{/* FLYER OFFICIEL */}
+<section id="flyer" className="py-12 md:py-16 bg-white">
+  <div className="container mx-auto px-4">
+    <div className="max-w-4xl mx-auto text-center">
+      <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-blue-700 mb-2">
+        Programme officiel
+      </p>
+      <h2 className="text-2xl md:text-3xl font-black text-blue-950 mb-4">
+        Flyer du Séminaire MON TEMPS 2026
+      </h2>
+      <p className="text-slate-600 mb-8">
+        Retrouvez toutes les informations officielles du séminaire.
+      </p>
+
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 md:p-4 shadow-sm">
+        <img
+          src="/images/flyer-seminaire-2026.jpg"
+          alt="Flyer officiel du séminaire biblique Mon Temps 2026"
+          className="w-full h-auto rounded-xl shadow-md"
+          loading="lazy"
+          width={1400}
+          height={2000}
+        />
+      </div>
+
+      <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="#register"
+          className="inline-flex items-center justify-center rounded-lg bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 font-semibold transition"
+        >
+          Je réserve ma place
+        </a>
+
+        <a
+          href="/docs/flyer-seminaire-2026.pdf"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center justify-center rounded-lg border border-slate-300 hover:bg-slate-100 text-slate-800 px-6 py-3 font-semibold transition"
+        >
+          Télécharger le flyer (PDF)
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* BLOC INFOS PRATIQUES */}
       <section id="infos" className="py-14 md:py-16 bg-white">
