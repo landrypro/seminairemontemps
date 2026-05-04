@@ -475,7 +475,7 @@ function getTimeLeft(targetDate: Date) {
     <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-center">
       <div className="flex justify-center">
         <img
-          src="/manus-storage/ECODISSEMINAIREMAI2026_8bbb2d00.jpg"
+          src="/images/revbiteck-de-bong.bmp" 
           alt="Apôtre Esaïe C. BITECK DE BONG"
           className="w-full max-w-sm rounded-2xl shadow-lg object-cover"
         />
@@ -490,13 +490,26 @@ function getTimeLeft(targetDate: Date) {
         </h2>
 
         <p className="text-slate-700 leading-relaxed mb-4">
-          Serviteur de Dieu engagé dans l’enseignement biblique, l’édification
-          des croyants et la formation de disciples.
+          La personne : Marié en 2007 à Elisabeth Babette avec 04 enfants, résidant à Douala.
+          Leader du Centre Chrétien de Réveil Spirituel (CECRES).
         </p>
 
         <p className="text-slate-700 leading-relaxed mb-6">
-          À travers ce séminaire, il partagera des principes spirituels et pratiques
-          pour vous aider à racheter le temps et accomplir votre destinée.
+          Auteur de plusieurs livres : 
+         <br/>▪️Comprendre et vivre le mariage selon Dieu,
+         <br/>▪️Vaincre les ennemis de votre paix
+         <br/>▪️ Les clés de la victoire
+        <br/>▪️Etc.
+        </p>
+
+        <p className="text-slate-700 leading-relaxed mb-6">
+              Promoteur de plusieurs initiatives   : 
+         <br/>▪️ Le journal Le Conseiller
+         <br/>▪️L'émission radio La Minute du Conseiller(LMC) – Chaque Samedi 09h15-RBN
+         <br/>▪️Le magazine Le Coin du Réveil (LCR)
+         <br/>▪️ ECODIS (Ecole des Disciple) : www.facebook.com/ecodisciples , Emission chaque Jeudi 19h30 sur RBN
+          <br/>▪️Etc.
+
         </p>
 
         <a
