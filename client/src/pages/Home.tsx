@@ -437,7 +437,7 @@ function getTimeLeft(targetDate: Date) {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-black text-blue-950 mb-6">
-              Pourquoi participer ?
+              Qui est concerné par ce Séminaire ?
             </h2>
               
            <p className="text-slate-700 leading-relaxed text-lg"> 
@@ -498,13 +498,15 @@ function getTimeLeft(targetDate: Date) {
           Auteur de plusieurs livres : 
          <br/>▪️Comprendre et vivre le mariage selon Dieu,
          <br/>▪️Vaincre les ennemis de votre paix
-         <br/>▪️ Les clés de la victoire
+         <br/>▪️Mon Guide de croissance spirituelle 
+        <br/>▪️Les Guides Pratiques du disciple(Revenons au Seigneur,La Cause de certains de nos échecs,... )
+         <br/>▪️Les clés de la victoire
         <br/>▪️Etc.
         </p>
 
         <p className="text-slate-700 leading-relaxed mb-6">
               Promoteur de plusieurs initiatives   : 
-         <br/>▪️ Le journal Le Conseiller
+         <br/>▪️Le journal Le Conseiller
          <br/>▪️L'émission radio La Minute du Conseiller(LMC) – Chaque Samedi 09h15-RBN
          <br/>▪️Le magazine Le Coin du Réveil (LCR)
          <br/>▪️ ECODIS (Ecole des Disciple) : www.facebook.com/ecodisciples , Emission chaque Jeudi 19h30 sur RBN
