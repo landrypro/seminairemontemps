@@ -565,29 +565,32 @@ function getTimeLeft(targetDate: Date) {
       <section id="testimonials" className="py-16 md:py-20 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-black text-blue-950 mb-10 text-center">
-            Témoignages du Seminaire de Mars 2026
+            Témoignages du Seminaire de Mars 2026  <a href="https://www.facebook.com/share/v/14bhtHHbk3z/" className="text-blue-900 hover:underline">(Vidéos)</a>
           </h2>
 
           <div className="grid md:grid-cols-3 gap-5 max-w-6xl mx-auto">
             <Card className="p-6 border-slate-200 shadow-sm">
               <p className="text-slate-700 italic mb-4">
-                “J’ai appris à organiser mes journées avec discipline et paix.”
+                “J’avais tellement mal, au point où je haîssais même mon leader mais aujourd'hui j'ai compris beaucoup , je ne dois pas deborder les limites, ma resolution c'est déjà d'aller demander pardon à mon encadreur.
+                ”
               </p>
-              <p className="font-semibold text-blue-900">— Sarah M.</p>
+              <p className="font-semibold text-blue-900">— Participante N°1.</p>
             </Card>
 
             <Card className="p-6 border-slate-200 shadow-sm">
               <p className="text-slate-700 italic mb-4">
-                “Le contenu était profond, concret et applicable immédiatement.”
+                “J'ai tellement pleuré, je vivais tellement de difficultés dans le Service, mais le Seigneur m'a dit une chose que tout est pour Sa Gloire, aujourd'hui j'ai compris que DIEU fait toutes choses bonnes en son temps, 
+                .”
               </p>
-              <p className="font-semibold text-blue-900">— Jonathan K.</p>
+              <p className="font-semibold text-blue-900">—Participante N°2.</p>
             </Card>
 
             <Card className="p-6 border-slate-200 shadow-sm">
               <p className="text-slate-700 italic mb-4">
-                “Ce séminaire m’a aidé à sortir de la procrastination.”
+                “J'ai été béni, je decouvre que je faisais beaucoup de choses par moi-même, mais j'ai compris que je dois tuer le moi et laisser Jésus agir au travers de moi.
+                Coté organisation tout s'est très bien passé.”
               </p>
-              <p className="font-semibold text-blue-900">— Grâce T.</p>
+              <p className="font-semibold text-blue-900">— Donald</p>
             </Card>
           </div>
         </div>
