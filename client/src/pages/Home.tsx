@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Calendar, MapPin, Clock, ArrowRight, CheckCircle2, MessageCircle } from "lucide-react";
-import { useEffect,useMemo, useState } from "react";
+import { Calendar, MapPin, Clock, ArrowRight, CheckCircle2, MessageCircle, Send } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,9 +33,7 @@ const formSchema = z
     countryCity: z.string().min(2, "Le pays et la ville sont requis."),
     phone: z.string().min(8, "Numéro de téléphone invalide."),
     maritalStatus: z.string().min(1, "La situation matrimoniale est requise."),
-    bornAgain: z.enum(["Oui", "Non"], {
-      errorMap: () => ({ message: "Veuillez indiquer Oui ou Non." }),
-    }),
+    bornAgain: z.enum(["Oui", "Non"], "Veuillez indiquer Oui ou Non."),
     bornAgainYear: z.string().optional(),
     jesusMotivation: z.string().min(10, "Merci de détailler votre motivation (min 10 caractères)."),
     spiritualMentor: z.string().min(2, "Ce champ est requis."),
@@ -76,6 +74,7 @@ function FloatingWhatsAppMobile({ phone }: { phone: string }) {
 
 export default function Home() {
   const WHATSAPP_NUMBER = "237657456623"; // <- Remplace par ton numéro (sans +)
+  const TELEGRAM_GROUP_URL = import.meta.env.VITE_TELEGRAM_GROUP_URL || "https://t.me/+votre_lien_du_groupe";
 
   const {
   register,
@@ -119,8 +118,6 @@ Merci.`;
   window.open(link, "_blank");
 };
 
-
-  const [submitted, setSubmitted] = useState(false);
 
   const eventInfo = useMemo(
     () => ({
@@ -188,79 +185,6 @@ function getTimeLeft(targetDate: Date) {
   return { expired: false, days, hours, minutes, seconds };
 }
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setSubmitted(false);
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Nettoyage des erreurs au fil de la saisie
-    if (name === "name" && value.trim().length > 1) {
-      setErrors((prev) => ({ ...prev, name: "" }));
-    }
-    if (name === "phone" && value.trim().length >= 8) {
-      setErrors((prev) => ({ ...prev, phone: "" }));
-    }
-  };
-
-  const validateForm = () => {
-     const requiredFields: Array<keyof typeof formData> = [
-    "fullName",
-    "countryCity",
-    "phone",
-    "maritalStatus",
-    "bornAgain",
-    "jesusMotivation",
-    "spiritualMentor",
-    "localChurch",
-    "seminarMotivation",
-    "whatsappTelegram",
-  ];
-
-  for (const field of requiredFields) {
-    if (!formData[field]?.trim()) {
-      alert("Veuillez remplir tous les champs obligatoires.");
-      return false;
-    }
-  }
-
-  // bornAgainYear requis si bornAgain = oui
-  if (formData.bornAgain.toLowerCase() === "oui" && !formData.bornAgainYear.trim()) {
-    alert("Veuillez préciser l'année de votre nouvelle naissance.");
-    return false;
-  }
-
-  return true;
-  };
-
-  const buildWhatsAppLink = () => {
-  const message = `Bonjour, je souhaite m'inscrire au séminaire MON TEMPS.
-
-          1) Nom(s) & Prénom(s): ${formData.fullName}
-          2) Pays et Ville de résidence: ${formData.countryCity}
-          3) Téléphone: ${formData.phone}
-          4) Situation matrimoniale: ${formData.maritalStatus}
-          5) Déjà né(e) de nouveau ?: ${formData.bornAgain}
-            Année (si oui): ${formData.bornAgainYear || "Non précisée"}
-          6) Motivation à recevoir Jésus-Christ: ${formData.jesusMotivation}
-          7) Encadreur spirituel / faiseur de disciple: ${formData.spiritualMentor}
-          8) Membre d'une église locale ?: ${formData.localChurch}
-          9) Motivation pour prendre part au séminaire: ${formData.seminarMotivation}
-          10) Numéros WhatsApp et Telegram: ${formData.whatsappTelegram}
-
-        Merci.`;
-
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-};
-
- /* const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    setSubmitted(true);
-    window.open(buildWhatsAppLink(), "_blank");
-  };*/
-
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       {/* HEADER */}
@@ -276,7 +200,8 @@ function getTimeLeft(targetDate: Date) {
             <a href="#infos" className="text-sm font-medium hover:text-blue-700 transition">Infos</a>
             <a href="#about" className="text-sm font-medium hover:text-blue-700 transition">À propos</a>
             <a href="#speaker" className="text-sm font-medium hover:text-blue-700 transition">Orateur</a>
-            <a href="#testimonials" className="text-sm font-medium hover:text-blue-700 transition">Témoinages</a>
+            <a href="#telegram" className="text-sm font-medium hover:text-blue-700 transition">Telegram</a>
+            <a href="#testimonials" className="text-sm font-medium hover:text-blue-700 transition">Témoignages</a>
             <a href="#register" className="text-sm font-medium hover:text-blue-700 transition">Inscription</a>
           </nav>
         </div>
@@ -428,6 +353,48 @@ function getTimeLeft(targetDate: Date) {
                 </div>
               </div>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* GROUPE TELEGRAM */}
+      <section id="telegram" className="py-12 md:py-16 bg-slate-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm">
+            <div className="grid md:grid-cols-[1.2fr_0.8fr] items-center">
+              <div className="p-6 md:p-10">
+                <span className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-bold uppercase tracking-widest text-blue-800 mb-4">
+                  <Send className="w-4 h-4" />
+                  Communauté Telegram
+                </span>
+                <h2 className="text-2xl md:text-3xl font-black text-blue-950 mb-3">
+                  Rejoignez le groupe Telegram du séminaire
+                </h2>
+                <p className="text-slate-700 leading-relaxed mb-6">
+                  Accédez aux annonces officielles, aux rappels importants et aux informations pratiques avant le jour du séminaire.
+                </p>
+                <a
+                  href={TELEGRAM_GROUP_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-sky-600 hover:bg-sky-700 text-white px-6 py-3 font-semibold transition"
+                >
+                  <Send className="w-5 h-5" />
+                  Rejoindre le groupe Telegram
+                </a>
+              </div>
+
+              <div className="bg-gradient-to-br from-sky-500 to-blue-900 p-6 md:p-10 text-white h-full flex items-center">
+                <div>
+                  <p className="text-sm uppercase tracking-widest text-sky-100 mb-2">Pourquoi rejoindre ?</p>
+                  <ul className="space-y-3 text-sm md:text-base text-white/90">
+                    <li className="flex gap-2"><CheckCircle2 className="w-5 h-5 text-yellow-300 shrink-0" />Recevoir les rappels avant le séminaire.</li>
+                    <li className="flex gap-2"><CheckCircle2 className="w-5 h-5 text-yellow-300 shrink-0" />Obtenir les détails pratiques en temps réel.</li>
+                    <li className="flex gap-2"><CheckCircle2 className="w-5 h-5 text-yellow-300 shrink-0" />Rester connecté avec les participants.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -669,12 +636,6 @@ function getTimeLeft(targetDate: Date) {
     </div>
   )}
 </form>
-
-            {submitted && (
-              <div className="mt-4 rounded-lg bg-green-50 border border-green-200 p-3 text-green-800 text-sm">
-                Merci ! Votre demande a été préparée. Finalisez l’envoi dans WhatsApp ✅
-              </div>
-            )}
           </div>
         </div>
       </section>
