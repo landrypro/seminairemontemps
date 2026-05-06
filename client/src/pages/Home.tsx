@@ -486,7 +486,7 @@ function getTimeLeft(targetDate: Date) {
           Votre orateur
         </p>
         <h2 className="text-3xl md:text-4xl font-black text-blue-950 mb-4">
-          Apôtre Esaïe C. BITECK DE BONG
+          Esaïe Charly BITECK DE BONG
         </h2>
 
         <p className="text-slate-700 leading-relaxed mb-4">
