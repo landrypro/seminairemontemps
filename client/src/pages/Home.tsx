@@ -34,7 +34,7 @@ const formSchema = z
     phone: z.string().min(8, "Numéro de téléphone invalide."),
     maritalStatus: z.string().min(1, "La situation matrimoniale est requise."),
     bornAgain: z.enum(["Oui", "Non"], {
-      errorMap: () => ({ message: "Veuillez indiquer Oui ou Non." }),
+      error: "Veuillez indiquer Oui ou Non.",
     }),
     bornAgainYear: z.string().optional(),
     jesusMotivation: z.string().min(10, "Merci de détailler votre motivation (min 10 caractères)."),
@@ -188,79 +188,6 @@ function getTimeLeft(targetDate: Date) {
 
   return { expired: false, days, hours, minutes, seconds };
 }
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setSubmitted(false);
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Nettoyage des erreurs au fil de la saisie
-    if (name === "name" && value.trim().length > 1) {
-      setErrors((prev) => ({ ...prev, name: "" }));
-    }
-    if (name === "phone" && value.trim().length >= 8) {
-      setErrors((prev) => ({ ...prev, phone: "" }));
-    }
-  };
-
-  const validateForm = () => {
-     const requiredFields: Array<keyof typeof formData> = [
-    "fullName",
-    "countryCity",
-    "phone",
-    "maritalStatus",
-    "bornAgain",
-    "jesusMotivation",
-    "spiritualMentor",
-    "localChurch",
-    "seminarMotivation",
-    "whatsappTelegram",
-  ];
-
-  for (const field of requiredFields) {
-    if (!formData[field]?.trim()) {
-      alert("Veuillez remplir tous les champs obligatoires.");
-      return false;
-    }
-  }
-
-  // bornAgainYear requis si bornAgain = oui
-  if (formData.bornAgain.toLowerCase() === "oui" && !formData.bornAgainYear.trim()) {
-    alert("Veuillez préciser l'année de votre nouvelle naissance.");
-    return false;
-  }
-
-  return true;
-  };
-
-  const buildWhatsAppLink = () => {
-  const message = `Bonjour, je souhaite m'inscrire au séminaire MON TEMPS.
-
-          1) Nom(s) & Prénom(s): ${formData.fullName}
-          2) Pays et Ville de résidence: ${formData.countryCity}
-          3) Téléphone: ${formData.phone}
-          4) Situation matrimoniale: ${formData.maritalStatus}
-          5) Déjà né(e) de nouveau ?: ${formData.bornAgain}
-            Année (si oui): ${formData.bornAgainYear || "Non précisée"}
-          6) Motivation à recevoir Jésus-Christ: ${formData.jesusMotivation}
-          7) Encadreur spirituel / faiseur de disciple: ${formData.spiritualMentor}
-          8) Membre d'une église locale ?: ${formData.localChurch}
-          9) Motivation pour prendre part au séminaire: ${formData.seminarMotivation}
-          10) Numéros WhatsApp et Telegram: ${formData.whatsappTelegram}
-
-        Merci.`;
-
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-};
-
- /* const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    setSubmitted(true);
-    window.open(buildWhatsAppLink(), "_blank");
-  };*/
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
@@ -547,7 +474,6 @@ function getTimeLeft(targetDate: Date) {
          <br/>▪️Le magazine Le Coin du Réveil (LCR)
          <br/>▪️ ECODIS (Ecole des Disciple) : www.facebook.com/ecodisciples , Emission chaque Jeudi 19h30 sur RBN
           <br/>▪️Etc.
-
         </p>
 
         <a
