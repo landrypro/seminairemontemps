@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Calendar, MapPin, Clock, ArrowRight, CheckCircle2, MessageCircle } from "lucide-react";
+import { Calendar, MapPin, Clock, ArrowRight, CheckCircle2, MessageCircle, Send } from "lucide-react";
 import { useEffect,useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -76,6 +76,7 @@ function FloatingWhatsAppMobile({ phone }: { phone: string }) {
 
 export default function Home() {
   const WHATSAPP_NUMBER = "237657456623"; // <- Remplace par ton numéro (sans +)
+  const TELEGRAM_GROUP_URL = "https://t.me/+gR0QUXSsUORkZmJk";
 
   const {
   register,
@@ -431,6 +432,41 @@ function getTimeLeft(targetDate: Date) {
           </div>
         </div>
       </section>
+
+      {/* GROUPE TELEGRAM */}{/* GROUPE TELEGRAM */}
+
+<section id="telegram" className="py-12 md:py-16 bg-slate-50">
+  <div className="container mx-auto px-4">
+    <div className="max-w-5xl mx-auto overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm">
+      <div className="grid md:grid-cols-[1.2fr_0.8fr] items-center">
+        <div className="p-6 md:p-10">
+          <span className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-bold uppercase tracking-widest text-blue-800 mb-4">
+            <Send className="w-4 h-4" />
+            Communauté Telegram
+          </span>
+
+          <h2 className="text-2xl md:text-3xl font-black text-blue-950 mb-3">
+            Rejoignez le groupe Telegram du séminaire
+          </h2>
+
+          <p className="text-slate-700 leading-relaxed mb-6">
+            Tu peux avoir un aperçu de ce qui sera au menu de ce séminaire. Rejoins le groupe des participants en cliquant sur le lien suivant
+          </p>
+
+          <a
+            href={TELEGRAM_GROUP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-sky-600 hover:bg-sky-700 text-white px-6 py-3 font-semibold transition"
+          >
+            <Send className="w-5 h-5" />
+            Rejoindre le groupe Telegram
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* À PROPOS */}
       <section id="about" className="py-16 md:py-20 bg-slate-50">
