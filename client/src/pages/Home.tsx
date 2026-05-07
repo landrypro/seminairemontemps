@@ -6,8 +6,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-
-
 function FloatingWhatsAppButton({ phone }: { phone: string }) {
   const text = encodeURIComponent(
     "Bonjour, je voudrais des informations sur le séminaire MON TEMPS 2026."
