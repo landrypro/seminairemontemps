@@ -201,7 +201,7 @@ Merci.`;
     () => ({
       date: "Samedi 23 mai 2026",
       time: "15h00",
-      location: "Douala (adresse communiquée après inscription)",
+      location: "HOTEL PRINCE DE GALLES, DOUALA AKWA CAMEROUN",
       price: "2 500 FCFA",
     }),
     []
@@ -307,7 +307,7 @@ function getTimeLeft(targetDate: Date) {
             <a href="#infos" className="text-sm font-medium hover:text-blue-700 transition">Infos</a>
             <a href="#about" className="text-sm font-medium hover:text-blue-700 transition">À propos</a>
             <a href="#speaker" className="text-sm font-medium hover:text-blue-700 transition">Orateur</a>
-            <a href="#testimonials" className="text-sm font-medium hover:text-blue-700 transition">Témoinages</a>
+            <a href="#testimonials" className="text-sm font-medium hover:text-blue-700 transition">Témoignages</a>
             <a href="#register" className="text-sm font-medium hover:text-blue-700 transition">Inscription</a>
           </nav>
         </div>
