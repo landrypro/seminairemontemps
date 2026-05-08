@@ -1,10 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Calendar, MapPin, Clock, ArrowRight, CheckCircle2, MessageCircle, Send } from "lucide-react";
-import { useEffect,useMemo, useState } from "react";
+import { useEffect,useMemo, useState,useRef, } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  trackFlyerDownload,
+  trackLead,
+  trackScroll50,
+  trackTelegramClick,
+  trackViewContent,
+  trackWhatsAppContact,
+} from "@/lib/tracking";
 
 
 
@@ -20,9 +28,16 @@ function FloatingWhatsAppButton({ phone }: { phone: string }) {
       rel="noreferrer"
       className="fixed bottom-5 right-5 z-[60] inline-flex items-center gap-2 rounded-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 shadow-xl transition-transform hover:scale-105"
       aria-label="Contacter sur WhatsApp"
+      onClick={() =>
+          trackWhatsAppContact({
+          placement: "floating_button",
+          content_name: "Seminaire Mon Temps 2026",
+  })
+}
     >
       <MessageCircle className="w-5 h-5" />
       <span className="font-semibold text-sm">WhatsApp</span>
+      
     </a>
   );
 }
@@ -34,7 +49,7 @@ const formSchema = z
     phone: z.string().min(8, "Numéro de téléphone invalide."),
     maritalStatus: z.string().min(1, "La situation matrimoniale est requise."),
     bornAgain: z.enum(["Oui", "Non"], {
-      errorMap: () => ({ message: "Veuillez indiquer Oui ou Non." }),
+      error: "Veuillez indiquer Oui ou Non.",
     }),
     bornAgainYear: z.string().optional(),
     jesusMotivation: z.string().min(10, "Merci de détailler votre motivation (min 10 caractères)."),
@@ -71,6 +86,62 @@ function FloatingWhatsAppMobile({ phone }: { phone: string }) {
       <MessageCircle className="w-5 h-5" />
       <span className="text-sm font-semibold">WhatsApp</span>
     </a>
+  );
+}
+
+function getTimeLeft(targetDate: Date) {
+  const now = new Date().getTime();
+  const distance = targetDate.getTime() - now;
+
+  if (distance <= 0) {
+    return { expired: true, days: 0, hours: 0, minutes: 0, seconds: 0 };
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((distance / (1000 * 60)) % 60);
+  const seconds = Math.floor((distance / 1000) % 60);
+
+  return { expired: false, days, hours, minutes, seconds };
+}
+
+function TimeBox({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="bg-white/10 border border-white/20 rounded-lg py-3 text-center">
+      <div className="text-2xl md:text-3xl font-black text-yellow-300">
+        {String(value).padStart(2, "0")}
+      </div>
+      <div className="text-xs uppercase tracking-wide text-white/80">{label}</div>
+    </div>
+  );
+}
+
+function CountdownTimer() {
+  const targetDate = useMemo(() => new Date("2026-05-23T15:00:00"), []);
+  const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTimeLeft(getTimeLeft(targetDate));
+    }, 1000);
+    return () => clearInterval(id);
+  }, [targetDate]);
+
+  if (timeLeft.expired) {
+    return (
+      <div className="bg-yellow-100 text-yellow-900 px-4 py-3 rounded-lg text-sm font-medium">
+        L'événement a démarré 🚀
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-4 gap-2 max-w-md">
+      <TimeBox label="Jours" value={timeLeft.days} />
+      <TimeBox label="Heures" value={timeLeft.hours} />
+      <TimeBox label="Min" value={timeLeft.minutes} />
+      <TimeBox label="Sec" value={timeLeft.seconds} />
+    </div>
   );
 }
 
@@ -117,6 +188,11 @@ const onSubmit = (data: FormValues) => {
 Merci.`;
 
   const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  trackLead({
+  content_name: "Formulaire inscription Mon Temps 2026",
+  lead_type: "seminaire_registration",
+  method: "whatsapp_form",
+});
   window.open(link, "_blank");
 };
 
@@ -189,79 +265,6 @@ function getTimeLeft(targetDate: Date) {
   return { expired: false, days, hours, minutes, seconds };
 }
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setSubmitted(false);
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Nettoyage des erreurs au fil de la saisie
-    if (name === "name" && value.trim().length > 1) {
-      setErrors((prev) => ({ ...prev, name: "" }));
-    }
-    if (name === "phone" && value.trim().length >= 8) {
-      setErrors((prev) => ({ ...prev, phone: "" }));
-    }
-  };
-
-  const validateForm = () => {
-     const requiredFields: Array<keyof typeof formData> = [
-    "fullName",
-    "countryCity",
-    "phone",
-    "maritalStatus",
-    "bornAgain",
-    "jesusMotivation",
-    "spiritualMentor",
-    "localChurch",
-    "seminarMotivation",
-    "whatsappTelegram",
-  ];
-
-  for (const field of requiredFields) {
-    if (!formData[field]?.trim()) {
-      alert("Veuillez remplir tous les champs obligatoires.");
-      return false;
-    }
-  }
-
-  // bornAgainYear requis si bornAgain = oui
-  if (formData.bornAgain.toLowerCase() === "oui" && !formData.bornAgainYear.trim()) {
-    alert("Veuillez préciser l'année de votre nouvelle naissance.");
-    return false;
-  }
-
-  return true;
-  };
-
-  const buildWhatsAppLink = () => {
-  const message = `Bonjour, je souhaite m'inscrire au séminaire MON TEMPS.
-
-          1) Nom(s) & Prénom(s): ${formData.fullName}
-          2) Pays et Ville de résidence: ${formData.countryCity}
-          3) Téléphone: ${formData.phone}
-          4) Situation matrimoniale: ${formData.maritalStatus}
-          5) Déjà né(e) de nouveau ?: ${formData.bornAgain}
-            Année (si oui): ${formData.bornAgainYear || "Non précisée"}
-          6) Motivation à recevoir Jésus-Christ: ${formData.jesusMotivation}
-          7) Encadreur spirituel / faiseur de disciple: ${formData.spiritualMentor}
-          8) Membre d'une église locale ?: ${formData.localChurch}
-          9) Motivation pour prendre part au séminaire: ${formData.seminarMotivation}
-          10) Numéros WhatsApp et Telegram: ${formData.whatsappTelegram}
-
-        Merci.`;
-
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-};
-
- /* const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    setSubmitted(true);
-    window.open(buildWhatsAppLink(), "_blank");
-  };*/
-
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       {/* HEADER */}
@@ -324,6 +327,12 @@ function getTimeLeft(targetDate: Date) {
                   const text = encodeURIComponent(
                     "Bonjour, je voudrais des informations sur le séminaire MON TEMPS 2026."
                   );
+
+                  trackWhatsAppContact({
+                      placement: "hero",
+                      content_name: "Seminaire Mon Temps 2026",
+              });
+
                   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
                 }}
               >
@@ -373,6 +382,12 @@ function getTimeLeft(targetDate: Date) {
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center justify-center rounded-lg border border-slate-300 hover:bg-slate-100 text-slate-800 px-6 py-3 font-semibold transition"
+        onClick={() =>
+          trackFlyerDownload({
+          file_name: "flyer-seminaire-2026.pdf",
+          content_name: "Flyer Seminaire Mon Temps 2026",
+       })
+}
         >
           Télécharger le flyer (PDF)
         </a>
@@ -458,6 +473,12 @@ function getTimeLeft(targetDate: Date) {
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-lg bg-sky-600 hover:bg-sky-700 text-white px-6 py-3 font-semibold transition"
+           onClick={() =>
+              trackTelegramClick({
+              placement: "telegram_section",
+               content_name: "Seminaire Mon Temps 2026",
+           })
+}
           >
             <Send className="w-5 h-5" />
             Rejoindre le groupe Telegram
@@ -565,29 +586,29 @@ function getTimeLeft(targetDate: Date) {
       <section id="testimonials" className="py-16 md:py-20 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-black text-blue-950 mb-10 text-center">
-            Témoignages du Seminaire de Mars 2026
+            Témoignages du Seminaire de Mars 2026<a href="https://www.facebook.com/share/v/14bhtHHbk3z/">(Vidéos)</a>
           </h2>
 
           <div className="grid md:grid-cols-3 gap-5 max-w-6xl mx-auto">
             <Card className="p-6 border-slate-200 shadow-sm">
               <p className="text-slate-700 italic mb-4">
-                “J’ai appris à organiser mes journées avec discipline et paix.”
+                “J’avais tellement mal, au point où je haîssais même mon leader mais aujourd'hui j'ai compris beaucoup , je ne dois pas deborder les limites, ma resolution c'est déjà d'aller demander pardon à mon encadreur.”
               </p>
-              <p className="font-semibold text-blue-900">— Sarah M.</p>
+              <p className="font-semibold text-blue-900">— Participante N°1.</p>
             </Card>
 
             <Card className="p-6 border-slate-200 shadow-sm">
               <p className="text-slate-700 italic mb-4">
-                “Le contenu était profond, concret et applicable immédiatement.”
+                “J'ai tellement pleuré, je vivais tellement de difficultés dans le Service, mais le Seigneur m'a dit une chose que tout est pour Sa Gloire, aujourd'hui j'ai compris que DIEU fait toutes choses bonnes en son temps.”
               </p>
-              <p className="font-semibold text-blue-900">— Jonathan K.</p>
+              <p className="font-semibold text-blue-900">— Participante N°2.</p>
             </Card>
 
             <Card className="p-6 border-slate-200 shadow-sm">
               <p className="text-slate-700 italic mb-4">
-                “Ce séminaire m’a aidé à sortir de la procrastination.”
+                “J'ai été béni, je decouvre que je faisais beaucoup de choses par moi-même, mais j'ai compris que je dois tuer le moi et laisser Jésus agir au travers de moi. Coté organisation tout s'est très bien passé..”
               </p>
-              <p className="font-semibold text-blue-900">— Grâce T.</p>
+              <p className="font-semibold text-blue-900">— Donald.</p>
             </Card>
           </div>
         </div>
@@ -718,4 +739,34 @@ function getTimeLeft(targetDate: Date) {
       <FloatingWhatsAppButton phone="237657456623" />
     </div>
   );
+
 }
+
+const WHATSAPP_NUMBER = "237657456623";
+const hasTrackedScroll50 = useRef(false);
+
+useEffect(() => {
+  trackViewContent({
+    content_name: "Seminaire Mon Temps 2026",
+    content_category: "seminaire_biblique",
+  });
+
+  const onScroll = () => {
+    if (hasTrackedScroll50.current) return;
+
+    const scrollPosition = window.scrollY + window.innerHeight;
+    const pageHeight = document.documentElement.scrollHeight;
+    const scrollRatio = scrollPosition / pageHeight;
+
+    if (scrollRatio >= 0.5) {
+      hasTrackedScroll50.current = true;
+      trackScroll50({
+        page: "home",
+        content_name: "Seminaire Mon Temps 2026",
+      });
+    }
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  return () => window.removeEventListener("scroll", onScroll);
+}, []);
