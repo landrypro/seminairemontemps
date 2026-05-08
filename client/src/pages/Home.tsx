@@ -14,8 +14,6 @@ import {
   trackWhatsAppContact,
 } from "@/lib/tracking";
 
-
-
 function FloatingWhatsAppButton({ phone }: { phone: string }) {
   const text = encodeURIComponent(
     "Bonjour, je voudrais des informations sur le séminaire MON TEMPS 2026."
@@ -208,6 +206,35 @@ Merci.`;
     }),
     []
   );
+
+  const hasTrackedScroll50 = useRef(false);
+
+  useEffect(() => {
+    trackViewContent({
+      content_name: "Seminaire Mon Temps 2026",
+      content_category: "seminaire_biblique",
+    });
+
+    const onScroll = () => {
+      if (hasTrackedScroll50.current) return;
+
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const pageHeight = document.documentElement.scrollHeight;
+      const scrollRatio = scrollPosition / pageHeight;
+
+      if (scrollRatio >= 0.5) {
+        hasTrackedScroll50.current = true;
+        trackScroll50({
+          page: "home",
+          content_name: "Seminaire Mon Temps 2026",
+        });
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
 function CountdownTimer() {
   // Date de l'événement: 23 mai 2026 à 15:00 (heure locale)
   const targetDate = useMemo(() => new Date("2026-05-23T15:00:00"), []);
@@ -739,34 +766,4 @@ function getTimeLeft(targetDate: Date) {
       <FloatingWhatsAppButton phone="237657456623" />
     </div>
   );
-
 }
-
-const WHATSAPP_NUMBER = "237657456623";
-const hasTrackedScroll50 = useRef(false);
-
-useEffect(() => {
-  trackViewContent({
-    content_name: "Seminaire Mon Temps 2026",
-    content_category: "seminaire_biblique",
-  });
-
-  const onScroll = () => {
-    if (hasTrackedScroll50.current) return;
-
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const pageHeight = document.documentElement.scrollHeight;
-    const scrollRatio = scrollPosition / pageHeight;
-
-    if (scrollRatio >= 0.5) {
-      hasTrackedScroll50.current = true;
-      trackScroll50({
-        page: "home",
-        content_name: "Seminaire Mon Temps 2026",
-      });
-    }
-  };
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  return () => window.removeEventListener("scroll", onScroll);
-}, []);
