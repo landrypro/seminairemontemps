@@ -490,7 +490,7 @@ function getTimeLeft(targetDate: Date) {
               <div className="flex items-start gap-3">
                 <TriangleAlert className="w-5 h-5 text-blue-800 mt-0.5" />
                 <div>
-                  <p className="text-sm text-slate-500">Modalité</p>
+                  <p className="text-sm text-slate-500">Attention</p>
                   <p>{eventInfo.detail1} </p>
                   <p>{eventInfo.detail2}</p>
                 </div>
