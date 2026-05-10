@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Calendar, MapPin, Clock, ArrowRight, CheckCircle2, MessageCircle, Send } from "lucide-react";
+import { Calendar, MapPin, Clock, ArrowRight, CheckCircle2, MessageCircle, Send, Smartphone,TriangleAlert } from "lucide-react";
 import { useEffect,useMemo, useState,useRef, } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -203,10 +203,13 @@ Merci.`;
       time: "15h00",
       location: "HOTEL PRINCE DE GALLES, DOUALA AKWA CAMEROUN",
       price: "2 500 FCFA",
+      number:"𝐎𝐌:+𝟐𝟑𝟕𝟔𝟗𝟓𝟔𝟖𝟖𝟗𝟓𝟏 / 𝐌𝐨𝐌𝐨:+𝟐𝟑𝟕𝟔𝟓𝟏𝟒𝟒𝟓𝟓𝟕𝟗",
+      name:"(𝑆𝑢𝑧𝑎𝑛𝑛𝑒 𝑀 𝑌𝑂𝐺𝐵𝐴𝐾)",
+      detail1:"𝘕.𝘉. 𝘜𝘯𝘦 𝘧𝘰𝘪𝘴 𝘭𝘦 𝘥𝘦́𝘱𝘰̂𝘵 𝘦𝘧𝘧𝘦𝘤𝘵𝘶𝘦́, 𝘷𝘦𝘶𝘪𝘭𝘭𝘦𝘻 𝘦𝘯𝘷𝘰𝘺𝘦𝘳",
+      detail2:"𝘢𝘶 𝘯𝘶𝘮𝘦́𝘳𝘰 𝘥𝘶 𝘥𝘦𝘴𝘵𝘪𝘯𝘢𝘵𝘢𝘪𝘳𝘦 𝘭𝘢  𝘤𝘢𝘱𝘵𝘶𝘳𝘦 𝘥'𝘦́𝘤𝘳𝘢𝘯 𝘰𝘶 𝘭𝘦 𝘚𝘔𝘚 𝘲𝘶𝘪 𝘤𝘰𝘯𝘧𝘪𝘳𝘮𝘦 𝘭𝘢 𝘵𝘳𝘢𝘯𝘴𝘢𝘤𝘵𝘪𝘰𝘯"
     }),
     []
   );
-
   const hasTrackedScroll50 = useRef(false);
 
   useEffect(() => {
@@ -468,6 +471,28 @@ function getTimeLeft(targetDate: Date) {
                 <div>
                   <p className="text-sm text-slate-500">Participation</p>
                   <p className="font-semibold">{eventInfo.price}</p>
+                </div>
+              </div>
+            </Card>
+
+               <Card className="p-5 border-slate-200 shadow-sm">
+              <div className="flex items-start gap-3">
+                <Smartphone className="w-5 h-5 text-blue-800 mt-0.5" />
+                <div>
+                  <p className="text-sm text-slate-500">Paiement mobile </p>
+                  <p>{eventInfo.number}</p>
+                  <p>{eventInfo.name}</p>
+                </div>
+              </div>
+            </Card>
+
+             <Card className="p-5 border-slate-200 shadow-sm">
+              <div className="flex items-start gap-3">
+                <TriangleAlert className="w-5 h-5 text-blue-800 mt-0.5" />
+                <div>
+                  <p className="text-sm text-slate-500">Modalité</p>
+                  <p>{eventInfo.detail1} </p>
+                  <p>{eventInfo.detail2}</p>
                 </div>
               </div>
             </Card>
